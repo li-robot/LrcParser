@@ -16,12 +16,22 @@ public class LrcParser {
 
 	public final static int SPLIT_LEN_10 = 10;
 	public final static int SPLIT_LEN_7 = 7;
+	
+	private boolean initState = false;
 
 	public LrcParser(String lrcPath) {
-		parse(lrcPath);
+		initState = parse(lrcPath);
 	}
 
-	public void parse(String lrcPath) {
+	public boolean parse(String lrcPath) {
+		
+		if(lrcPath == null){
+			return false;
+		}
+		
+		if(!new File(lrcPath).exists()){
+			return false;
+		}
 
 		try {
 			FileInputStream inputStream = new FileInputStream(new File(lrcPath));
@@ -56,10 +66,14 @@ public class LrcParser {
 				lines.add(line);
 			}
 			bReader.close();
+			
+			return true;
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
+			return false;
 		} catch (IOException e) {
 			e.printStackTrace();
+			return false;
 		}
 	}
 	
@@ -67,9 +81,16 @@ public class LrcParser {
 	private LrcPlayThread playThread;
 
 	public void play() {
-		playThread = new LrcPlayThread(lines, mOnTextListener,
-				mOnCompleteListener);
-		new Thread(playThread).start();
+		if(initState){
+			
+			playThread = new LrcPlayThread(lines, mOnTextListener,
+					mOnCompleteListener);
+			new Thread(playThread).start();
+			
+		} else {
+			System.out.println("init failed!");
+		}
+		
 	}
 	
 	public void setTimeOffset(long timeOffset){

@@ -27,9 +27,15 @@ public class LrcPlayThread implements Runnable {
 	@Override
 	public void run() {
 		long startTime = System.currentTimeMillis();
+		
+		// the last
+		int len = lines.size();
+		LrcLine lastData = lines.get(len - 1);
 
 		while (runFlag) {
 			long endTime = System.currentTimeMillis() + lrcOffsetTime;
+			
+			LrcLine curData = null;
 			
 			for(int i=0; i<lines.size(); i++){
 				
@@ -37,12 +43,18 @@ public class LrcPlayThread implements Runnable {
 						&& endTime - startTime - lines.get(i).timeTag >= -20) {
 					
 					if (lines.get(i).lineString != null && mListener != null ) {
+						curData = lines.get(i);
 						mListener.onText(lines.get(i).lineString);
-						
 						lines.remove(i);
 				    }
+					
 				}
 			}
+			
+			if(curData != null && curData.timeTag == lastData.timeTag){
+				break;
+			}
+			
 		}
 
 		if (mOnCompleteListener != null) {

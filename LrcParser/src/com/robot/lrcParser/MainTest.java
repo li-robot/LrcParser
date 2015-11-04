@@ -4,7 +4,7 @@ public class MainTest {
 
 	public static void main(String[] args) {
 
-		LrcParser parser = new LrcParser("c:/lrc/test.lrc");
+		LrcParser parser = new LrcParser("c:/lr/test.lrc");
 		parser.setOnTextListener(new OnTextListener() {
 
 			@Override
@@ -25,7 +25,7 @@ public class MainTest {
 
 		parser.play();
 		
-		parser.setTimeOffset(50 * 1000);
+		parser.setTimeOffset(180 * 1000);
 	}
 
 }
