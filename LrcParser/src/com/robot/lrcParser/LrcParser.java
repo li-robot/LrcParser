@@ -62,11 +62,7 @@ public class LrcParser {
 			e.printStackTrace();
 		}
 	}
-
-	public static void main(String[] args) {
-		LrcParser parser = new LrcParser("");
-		parser.play();
-	}
+	
 
 	private LrcPlayThread playThread;
 
@@ -74,6 +70,12 @@ public class LrcParser {
 		playThread = new LrcPlayThread(lines, mOnTextListener,
 				mOnCompleteListener);
 		new Thread(playThread).start();
+	}
+	
+	public void setTimeOffset(long timeOffset){
+		if(playThread != null){
+			playThread.setLrcOffsetTime(timeOffset);
+		}
 	}
 
 	private OnTextListener mOnTextListener;

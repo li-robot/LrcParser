@@ -13,6 +13,8 @@ public class MainTest {
 			}
 		});
 
+		
+		
 		parser.setOnCompleteListener(new OnCompleteListener() {
 
 			@Override
@@ -22,6 +24,8 @@ public class MainTest {
 		});
 
 		parser.play();
+		
+		parser.setTimeOffset(50 * 1000);
 	}
 
 }
